@@ -7,45 +7,6 @@ import smartcard.util
 from apdu import *
 
 
-"""Helper function to determine the smart card state 
-
-From https://pyscard.sourceforge.io/pyscard-wrapper.html#wait-for-card-insertion-removal
-
-Performs bitwise operations to determines the card reader from the param state. 
-The state param is an abstraction of the underlying C++ SCARD_READERSTATE object.
-See https://docs.microsoft.com/en-us/windows/desktop/api/winscard/ns-winscard-scard_readerstatea
-
-Parameters
-state: a tuple containing (readerName, eventState, ATR) 
-"""
-
-def printstate(state):
-    reader, eventstate, atr = state
-    print(reader + " " + smartcard.util.toHexString(atr, smartcard.util.HEX))
-    if eventstate & SCARD_STATE_ATRMATCH:
-        print('\tCard found')
-    if eventstate & SCARD_STATE_UNAWARE:
-        print('\tState unware')
-    if eventstate & SCARD_STATE_IGNORE:
-        print('\tIgnore reader')
-    if eventstate & SCARD_STATE_UNAVAILABLE:
-        print('\tReader unavailable')
-    if eventstate & SCARD_STATE_EMPTY:
-        print('\tReader empty')
-    if eventstate & SCARD_STATE_PRESENT:
-        print('\tCard present in reader')
-    if eventstate & SCARD_STATE_EXCLUSIVE:
-        print('\tCard allocated for exclusive use by another application')
-    if eventstate & SCARD_STATE_INUSE:
-        print('\tCard in used by another application but can be shared')
-    if eventstate & SCARD_STATE_MUTE:
-        print('\tCard is mute')
-    if eventstate & SCARD_STATE_CHANGED:
-        print('\tState changed')
-    if eventstate & SCARD_STATE_UNKNOWN:
-        print('\tState unknowned')
-
-
 def main():
     try:
         hcontext = connectSmartCard()
